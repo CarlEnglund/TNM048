@@ -105,16 +105,17 @@ function pc(){
                 return extents[i][0] <= d[p] && d[p] <= extents[i][1];
             }) ? null : "none";
         });
+        
     }
 
     //method for selecting the pololyne from other components   
     this.selectLine = function(value){
-        //...
+        foreground.style("display", function(d) { return d["Country"] === value ? null : "none";});
     };
     
     //method for selecting features of other components
     function selFeature(value){
-        //...
+        sp1.selectDot(value);
     };
 
 }

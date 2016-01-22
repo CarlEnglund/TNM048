@@ -100,6 +100,7 @@ function sp(){
                 //...   
             })
             .on("click",  function(d) {
+                //sp1 is created in main.js
                 sp1.selectDot(d["Country"]); 
             });
     }
@@ -114,11 +115,12 @@ function sp(){
         .filter(function(d) {return !value.indexOf(d["Country"])})
         .attr("opacity", 1.0)
         .style("stroke", "red");
+        selFeature(value);
     };
     
     //method for selecting features of other components
     function selFeature(value){
-        //...
+        pc1.selectLine(value);
     }
 
 }
