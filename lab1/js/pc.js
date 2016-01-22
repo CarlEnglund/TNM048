@@ -8,12 +8,15 @@ function pc(){
         width = pcDiv.width() - margin[1] - margin[3],
         height = pcDiv.height() - margin[0] - margin[2];
 
-    
-    //initialize color scale
-    //...
+ 
     var colorscale = d3.scale.category20();    
-    //initialize tooltip
-    //...
+    
+    var tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .text("a simple tooltip");
 
     var x = d3.scale.ordinal().rangePoints([0, width], 1),
         y = {};
@@ -63,8 +66,16 @@ function pc(){
             .enter().append("path")
             .attr("d", path)
             .style("stroke", function(d){return colorscale(d["Country"]);})
-            .on("mousemove", function(){})
-            .on("mouseout", function(){});
+            .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+            .on("mousemove", function(d){
+                return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d["Country"]);
+            })
+            .on("mouseout", function(){
+                return tooltip.style("visibility", "hidden");
+            })
+            .on("click",  function(d) {
+                selFeature(d["Country"]);
+            });
 
         // Add a group element for each dimension.
         var g = svg.selectAll(".dimension")
