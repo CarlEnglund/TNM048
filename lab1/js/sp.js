@@ -34,6 +34,14 @@ function sp(){
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    //http://stackoverflow.com/questions/10805184/d3-show-data-on-mouseover-of-circle
+    var tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .text("a simple tooltip");
+
     //Load data
     d3.csv("data/OECD-better-life-index-hi.csv", function(error, data) {
         self.data = data;
@@ -93,11 +101,13 @@ function sp(){
             .style("fill", function(d){return colorscale(d["Country"]);})
 
             //tooltip
+            .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+
             .on("mousemove", function(d) {
-                //...    
+                return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d["Country"]);
             })
             .on("mouseout", function(d) {
-                //...   
+                return tooltip.style("visibility", "hidden");
             })
             .on("click",  function(d) {
                 //sp1 is created in main.js

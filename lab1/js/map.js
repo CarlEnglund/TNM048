@@ -14,8 +14,13 @@ function map(){
     //...
     var colorscale = d3.scale.category20c();    
     
-    //initialize tooltip
-    //...
+    //http://stackoverflow.com/questions/10805184/d3-show-data-on-mouseover-of-circle
+    var tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .text("a simple tooltip");
 
     var projection = d3.geo.mercator()
         .center([50, 60 ])
@@ -58,11 +63,16 @@ function map(){
             .attr("title", function(d) { return d.properties.name; })
             .style("fill", function(d){return colorscale(d.properties.name);})
             //tooltip
+
+            .on("mouseover", function(){
+                return tooltip.style("visibility", "visible");
+            })
+
             .on("mousemove", function(d) {
-                //...
+                return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d["Country"]);
             })
             .on("mouseout",  function(d) {
-                //...
+                return tooltip.style("visibility", "hidden");
             })
             //selection
             .on("click",  function(d) {
