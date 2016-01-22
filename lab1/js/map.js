@@ -33,7 +33,7 @@ function map(){
     // load data and draw the map
     d3.json("data/world-topo.topojson", function(error, world) {
         console.log(world);
-        var countries = topojson.feature(world, world.objects.swe_mun).features;
+        var countries = topojson.feature(world, world.objects.countries).features;
         
         //load summary data
         //...
