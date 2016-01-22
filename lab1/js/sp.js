@@ -100,13 +100,20 @@ function sp(){
                 //...   
             })
             .on("click",  function(d) {
-                //...    
+                sp1.selectDot(d["Country"]); 
             });
     }
 
     //method for selecting the dot from other components
     this.selectDot = function(value){
-        //...
+        d3.select("#sp")
+        .selectAll(".dot")
+        .data(self.data)
+        .attr("opacity", 0.2)
+        .style("stroke", "none")
+        .filter(function(d) {return !value.indexOf(d["Country"])})
+        .attr("opacity", 1.0)
+        .style("stroke", "red");
     };
     
     //method for selecting features of other components
