@@ -102,20 +102,22 @@ function sp(){
             .on("click",  function(d) {
                 //sp1 is created in main.js
                 sp1.selectDot(d["Country"]); 
+                selFeature(d["Country"]);
             });
     }
 
     //method for selecting the dot from other components
     this.selectDot = function(value){
+        console.log(value);
         d3.select("#sp")
         .selectAll(".dot")
         .data(self.data)
         .attr("opacity", 0.2)
         .style("stroke", "none")
-        .filter(function(d) {return !value.indexOf(d["Country"])})
+        .filter(function(d) {return value.indexOf(d["Country"]) != -1})
         .attr("opacity", 1.0)
         .style("stroke", "red");
-        selFeature(value);
+        
     };
     
     //method for selecting features of other components

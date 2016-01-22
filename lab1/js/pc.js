@@ -98,14 +98,22 @@ function pc(){
 
     // Handles a brush event, toggling the display of foreground lines.
     function brush() {
+        var lines = [];
         var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
             extents = actives.map(function(p) { return y[p].brush.extent(); });
         foreground.style("display", function(d) {
-            return actives.every(function(p, i) {
-                return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-            }) ? null : "none";
+            if(actives.every(function(p, i) {return extents[i][0] <= d[p] && d[p] <= extents[i][1]})) {
+                lines.push(d["Country"]);
+                return null;
+            } 
+            else { 
+                return "none";
+            }
+            
         });
-        
+        console.log(lines);
+        selFeature(lines); 
+
     }
 
     //method for selecting the pololyne from other components   
