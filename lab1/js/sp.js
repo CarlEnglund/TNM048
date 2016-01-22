@@ -10,7 +10,7 @@ function sp(){
 
     //initialize color scale
     //...
-    
+    var colorscale = d3.scale.category20();    
     //initialize tooltip
     //...
 
@@ -40,6 +40,10 @@ function sp(){
         
         //define the domain of the scatter plot axes
         //...
+        //In the x domain, select between 0 and max of data/Life Satisfaction
+        x.domain([0, d3.max(data, function(d) { return d["Employment rate"]; })]);
+        //In the x domain, select between 0 and max of data/Househould income
+        y.domain([0, d3.max(data, function(d) { return d["Household income"]; })]);
         
         draw();
 
@@ -55,9 +59,11 @@ function sp(){
             .call(xAxis)
             .append("text")
             .attr("class", "label")
-            .attr("x", width)
-            .attr("y", -6);
-            
+            .attr("x", 100)
+            .attr("y", -6)
+            .text("Employment rate");
+    
+
         // Add y axis and title.
         svg.append("g")
             .attr("class", "y axis")
@@ -65,16 +71,27 @@ function sp(){
             .append("text")
             .attr("class", "label")
             .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em");
+            .attr("y", 8)
+            .attr("x", -100)
+            .attr("dy", ".71em")
+            .text("Household income")
+
+         
             
         // Add the scatter dots.
         svg.selectAll(".dot")
             .data(self.data)
             .enter().append("circle")
             .attr("class", "dot")
-            //Define the x and y coordinate data values for the dots
-            //...
+            .attr("cx", function(d) {
+                return x(d["Employment rate"]); //Load data
+            })
+            .attr("cy", function(d) {
+                return y(d["Household income"]); //Load data
+            })
+            .attr("r", 10)
+            .style("fill", function(d){return colorscale(d["Country"]);})
+
             //tooltip
             .on("mousemove", function(d) {
                 //...    
