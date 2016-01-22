@@ -12,6 +12,7 @@ function map(){
 
     //initialize color scale
     //...
+    var colorscale = d3.scale.category20c();    
     
     //initialize tooltip
     //...
@@ -33,10 +34,7 @@ function map(){
     // load data and draw the map
     d3.json("data/world-topo.topojson", function(error, world) {
         console.log(world);
-        var countries = topojson.feature(world, world.objects.countries).features;
-        
-        //load summary data
-        //...
+        var countries = topojson.feature(world, world.objects.countries).features; 
 
         draw(countries);
         
@@ -46,18 +44,19 @@ function map(){
     {
         var country = g.selectAll(".country").data(countries);
 
-        //initialize a color country object	
-        var cc = {};
-		
-        //...
-
+        //initialize a color country object 
+        var cc = {
+           country: country,
+           color: colorscale
+        };
+        
+        
         country.enter().insert("path")
             .attr("class", "country")
             .attr("d", path)
             .attr("id", function(d) { return d.id; })
             .attr("title", function(d) { return d.properties.name; })
-            //country color
-            //...
+            .style("fill", function(d){return colorscale(d.properties.name);})
             //tooltip
             .on("mousemove", function(d) {
                 //...
