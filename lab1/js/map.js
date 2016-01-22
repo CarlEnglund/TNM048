@@ -64,19 +64,22 @@ function map(){
             .style("fill", function(d){return colorscale(d.properties.name);})
             //tooltip
 
-            .on("mouseover", function(){
+            .on("mouseover", function(d){
                 return tooltip.style("visibility", "visible");
+                console.log(d);
             })
 
             .on("mousemove", function(d) {
-                return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d["Country"]);
+                return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d.properties.name);
+                console.log(d);
             })
             .on("mouseout",  function(d) {
                 return tooltip.style("visibility", "hidden");
+                console.log(d);
             })
             //selection
             .on("click",  function(d) {
-                //...
+                selFeature(d.properties.name);
             });
 
     }
@@ -95,7 +98,8 @@ function map(){
     
     //method for selecting features of other components
     function selFeature(value){
-        //...
+        sp1.selectDot(value);
+        pc1.selectLine(value);
     }
 }
 
