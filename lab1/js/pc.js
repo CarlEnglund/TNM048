@@ -11,7 +11,7 @@ function pc(){
     
     //initialize color scale
     //...
-    
+    var colorscale = d3.scale.category20();    
     //initialize tooltip
     //...
 
@@ -34,13 +34,11 @@ function pc(){
     d3.csv("data/OECD-better-life-index-hi.csv", function(data) {
 
         self.data = data;
-
-        // Extract the list of dimensions and create a scale for each.
-        //...
-        x.domain(dimensions = d3.keys([0,1,2,3,4]).filter(function(d) {
-            return [(y[d] = d3.scale.linear()
-                .domain(d3.extent([0,1]))
-                .range([height, 0]))];
+        // Extract the list of dimensions and create a scale for each
+        x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+            return d != "Country" && (y[d] = d3.scale.linear()
+                .domain(d3.extent(data, function(p) {return +p[d];}))
+                .range([height, 0]));
         }));
 
         draw();
@@ -51,8 +49,9 @@ function pc(){
         background = svg.append("svg:g")
             .attr("class", "background")
             .selectAll("path")
-            //add the data and append the path 
-            //...
+            .data(self.data)
+            .enter().append("path")
+            .attr("d", path)
             .on("mousemove", function(d){})
             .on("mouseout", function(){});
 
@@ -60,8 +59,10 @@ function pc(){
         foreground = svg.append("svg:g")
             .attr("class", "foreground")
             .selectAll("path")
-            //add the data and append the path 
-            //...
+            .data(self.data)
+            .enter().append("path")
+            .attr("d", path)
+            .style("stroke", function(d){return colorscale(d["Country"]);})
             .on("mousemove", function(){})
             .on("mouseout", function(){});
 
@@ -75,7 +76,7 @@ function pc(){
         // Add an axis and title.
         g.append("svg:g")
             .attr("class", "axis")
-            //add scale
+            .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
             .append("svg:text")
             .attr("text-anchor", "middle")
             .attr("y", -9)
@@ -106,7 +107,7 @@ function pc(){
         });
     }
 
-    //method for selecting the pololyne from other components	
+    //method for selecting the pololyne from other components   
     this.selectLine = function(value){
         //...
     };
