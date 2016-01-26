@@ -40,7 +40,9 @@ function pc(){
         // Extract the list of dimensions and create a scale for each
         x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
             return d != "Country" && (y[d] = d3.scale.linear()
-                .domain(d3.extent(data, function(p) {return +p[d];}))
+                .domain(d3.extent(data, function(p) {
+                    console.log(+p[d]);
+                    return +p[d];}))
                 .range([height, 0]));
         }));
 
@@ -74,6 +76,7 @@ function pc(){
                 return tooltip.style("visibility", "hidden");
             })
             .on("click",  function(d) {
+                pc1.selectLine(d["Country"]);
                 selFeature(d["Country"]);
             });
 
@@ -122,9 +125,7 @@ function pc(){
             }
             
         });
-        console.log(lines);
         selFeature(lines); 
-
     }
 
     //method for selecting the pololyne from other components   

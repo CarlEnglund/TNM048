@@ -48,10 +48,10 @@ function sp(){
         
         //define the domain of the scatter plot axes
         //...
-        //In the x domain, select between 0 and max of data/Life Satisfaction
-        x.domain([0, d3.max(data, function(d) { return d["Employment rate"]; })]);
-        //In the x domain, select between 0 and max of data/Househould income
-        y.domain([0, d3.max(data, function(d) { return d["Household income"]; })]);
+        //In the x domain, select between 0 and max of data/Personal earnings
+        x.domain([0, d3.max(data, function(d) { return d["Personal earnings"]; })]);
+        //In the x domain, select between 0 and max of data/Life satisfaction
+        y.domain([0, d3.max(data, function(d) { return d["Life satisfaction"]; })]);
         
         draw();
 
@@ -69,7 +69,7 @@ function sp(){
             .attr("class", "label")
             .attr("x", 100)
             .attr("y", -6)
-            .text("Employment rate");
+            .text("Personal earnings");
     
 
         // Add y axis and title.
@@ -82,7 +82,7 @@ function sp(){
             .attr("y", 8)
             .attr("x", -100)
             .attr("dy", ".71em")
-            .text("Household income")
+            .text("Life satisfaction")
 
          
             
@@ -92,17 +92,18 @@ function sp(){
             .enter().append("circle")
             .attr("class", "dot")
             .attr("cx", function(d) {
-                return x(d["Employment rate"]); //Load data
+                return x(d["Personal earnings"]); //Load data
             })
             .attr("cy", function(d) {
-                return y(d["Household income"]); //Load data
+                return y(d["Life satisfaction"]); //Load data
             })
             .attr("r", 10)
             .style("fill", function(d){return colorscale(d["Country"]);})
 
             //tooltip
-            .on("mouseover", function(){return tooltip.style("visibility", "visible");})
-
+            .on("mouseover", function(){
+                return tooltip.style("visibility", "visible");
+            })
             .on("mousemove", function(d) {
                 return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d["Country"]);
             })
@@ -118,7 +119,6 @@ function sp(){
 
     //method for selecting the dot from other components
     this.selectDot = function(value){
-        console.log(value);
         d3.select("#sp")
         .selectAll(".dot")
         .data(self.data)

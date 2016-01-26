@@ -12,7 +12,7 @@ function map(){
 
     //initialize color scale
     //...
-    var colorscale = d3.scale.category20c();    
+    var colorscale = d3.scale.category20();    
     
     //http://stackoverflow.com/questions/10805184/d3-show-data-on-mouseover-of-circle
     var tooltip = d3.select("body")
@@ -50,10 +50,10 @@ function map(){
         var country = g.selectAll(".country").data(countries);
 
         //initialize a color country object 
-        var cc = {
+        /*var cc = {
            country: country,
            color: colorscale
-        };
+        };*/
         
         
         country.enter().insert("path")
