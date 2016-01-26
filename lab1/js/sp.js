@@ -69,7 +69,7 @@ function sp(){
             .attr("class", "label")
             .attr("x", 100)
             .attr("y", -6)
-            .text("Personal earnings");
+            .text("Personal earnings"); // set label
     
 
         // Add y axis and title.
@@ -82,14 +82,14 @@ function sp(){
             .attr("y", 8)
             .attr("x", -100)
             .attr("dy", ".71em")
-            .text("Life satisfaction")
+            .text("Life satisfaction") // set label
 
          
             
         // Add the scatter dots.
         svg.selectAll(".dot")
             .data(self.data)
-            .enter().append("circle")
+            .enter().append("circle") // add new element
             .attr("class", "dot")
             .attr("cx", function(d) {
                 return x(d["Personal earnings"]); //Load data
@@ -124,7 +124,7 @@ function sp(){
         .data(self.data)
         .attr("opacity", 0.2)
         .style("stroke", "none")
-        .filter(function(d) {return value.indexOf(d["Country"]) != -1})
+        .filter(function(d) {return value.indexOf(d["Country"]) != -1}) // pick correct country
         .attr("opacity", 1.0)
         .style("stroke", "red");
         

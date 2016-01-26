@@ -38,6 +38,8 @@ function pc(){
 
         self.data = data;
         // Extract the list of dimensions and create a scale for each
+        // doesn't matter if data[0] or data[1] etc.
+        // filter away country
         x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
             return d != "Country" && (y[d] = d3.scale.linear()
                 .domain(d3.extent(data, function(p) {
@@ -54,7 +56,7 @@ function pc(){
         background = svg.append("svg:g")
             .attr("class", "background")
             .selectAll("path")
-            .data(self.data)
+            .data(self.data) // add data for lines out of focus
             .enter().append("path")
             .attr("d", path)
             .on("mousemove", function(d){})
@@ -65,9 +67,9 @@ function pc(){
             .attr("class", "foreground")
             .selectAll("path")
             .data(self.data)
-            .enter().append("path")
+            .enter().append("path") //add data for line in focus
             .attr("d", path)
-            .style("stroke", function(d){return colorscale(d["Country"]);})
+            .style("stroke", function(d){return colorscale(d["Country"]);}) // get correct colorscale
             .on("mouseover", function(){return tooltip.style("visibility", "visible");})
             .on("mousemove", function(d){
                 return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d["Country"]);
