@@ -41,6 +41,7 @@ function map(data) {
 
     //Formats the data in a feature collection trougth geoFormat()
     var geoData = {type: "FeatureCollection", features: geoFormat(data)};
+    console.log(geoData);
 
     //Loads geo data
     d3.json("data/world-topo.json", function (error, world) {
@@ -57,8 +58,22 @@ function map(data) {
     function geoFormat(array) {
         var data = [];
         array.map(function (d, i) {
-            //Complete the code
+           var feature = {
+            "type" : "Feature",
+            "geometry" : {
+                "type" : "Point", 
+                "coordinates": [d.lat, d.lon]
+            },
+            "properties" : {
+                "id" : d.id,
+                "time" : d.time,
+                "depth" : d.depth,
+                "mag" : d.mag
+            }
+           }
+           data.push(feature);
         });
+        console.log(data);
         return data;
     }
 
