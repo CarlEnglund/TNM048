@@ -38,10 +38,11 @@ function pc(){
 
         self.data = data;
         // Extract the list of dimensions and create a scale for each
-        x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+
+        console.log(data.length);
+        x.domain(dimensions = d3.keys(data[1]).filter(function(d) {
             return d != "Country" && (y[d] = d3.scale.linear()
                 .domain(d3.extent(data, function(p) {
-                    console.log(+p[d]);
                     return +p[d];}))
                 .range([height, 0]));
         }));
@@ -68,7 +69,9 @@ function pc(){
             .enter().append("path")
             .attr("d", path)
             .style("stroke", function(d){return colorscale(d["Country"]);})
-            .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+            .on("mouseover", function(){
+                return tooltip.style("visibility", "visible");
+            })
             .on("mousemove", function(d){
                 return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px").text(d["Country"]);
             })

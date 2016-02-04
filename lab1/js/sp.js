@@ -97,7 +97,7 @@ function sp(){
             .attr("cy", function(d) {
                 return y(d["Life satisfaction"]); //Load data
             })
-            .attr("r", 10)
+            .attr("r", 5)
             .style("fill", function(d){return colorscale(d["Country"]);})
 
             //tooltip
