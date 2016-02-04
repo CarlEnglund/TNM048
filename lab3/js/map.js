@@ -41,7 +41,7 @@ function map(data) {
 
     //Formats the data in a feature collection trougth geoFormat()
     var geoData = {type: "FeatureCollection", features: geoFormat(data)};
-    console.log(geoData);
+    
 
     //Loads geo data
     d3.json("data/world-topo.json", function (error, world) {
@@ -62,18 +62,18 @@ function map(data) {
             "type" : "Feature",
             "geometry" : {
                 "type" : "Point", 
-                "coordinates": [d.lat, d.lon]
+                "coordinates": [d.lon, d.lat]
             },
             "properties" : {
                 "id" : d.id,
                 "time" : d.time,
                 "depth" : d.depth,
-                "mag" : d.mag
+                "mag" : d.mag,
+                "place" : d.place
             }
-           }
+           }    
            data.push(feature);
         });
-        console.log(data);
         return data;
     }
 
@@ -90,7 +90,20 @@ function map(data) {
                 .style("stroke", "white");
 
         //draw point        
-        var point //Complete the code
+        var point = g.selectAll("circle")
+                    .data(geoData.features)
+                    .enter().append("circle")
+                    .attr("class", "dot")
+                    .attr("cx", function(d) {
+                        return projection(d.geometry.coordinates)[0];
+                    })
+                    .attr("cy", function(d) {
+                        return projection(d.geometry.coordinates)[1];
+                    })
+                    .attr("r", 1)
+                    .style("fill", "orange")
+                    
+                    
     };
 
     //Filters data points according to the specified magnitude
