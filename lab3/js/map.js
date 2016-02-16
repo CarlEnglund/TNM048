@@ -100,7 +100,7 @@ function map(data) {
                     .attr("cy", function(d) {
                         return projection(d.geometry.coordinates)[1];
                     })
-                    .attr("r", 1)
+                    .attr("r", 3)
                     .style("fill", "orange")
                     
                     
@@ -118,7 +118,8 @@ function map(data) {
     this.filterTime = function (value) {
         var startTime = value[0].getTime();
         var endTime = value[1].getTime();
-
+        if(startTime == endTime)
+            return;
         svg.selectAll("circle").style("opacity", function(d) {
          var time = new Date(d.properties.time);
          return (startTime <= time.getTime() && time.getTime() <= endTime) ? 1 : 0;
