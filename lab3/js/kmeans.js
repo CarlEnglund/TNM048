@@ -225,29 +225,35 @@
     {
         //var dim = Object.keys(data[0]);
         var randomCentroids = [];
-        
-
+        var clusterData = [];
+        var dim2 = Object.keys(data[0]);
         for (var i = 0; i < data.length; i++)
         {
-            delete data[i].id;
-            delete data[i].time;
-            delete data[i].place;
+            clusterData.push([]);
+            for (var j = 0; j < dim2.length; j++)
+            {
+                if (dim2[j] != "id" && dim2[j] != "time" && dim2[j] != "place")
+                {
+                    clusterData[i].push(data[i][dim2[j]]);
+                }
+            }            
         }
-        var keys = d3.keys(data[0]);
-        var dim = Object.keys(data[0]);
+
+        var keys = d3.keys(clusterData[0]);
+        var dim = Object.keys(clusterData[0]);
         // Step 1
         for (var i = 0; i < k; i++)
         {
-            randomCentroids.push(createRandomCentroid(data, dim));
+            randomCentroids.push(createRandomCentroid(clusterData, dim));
         }
-        var dataWithIndex = assignToCluster(randomCentroids, data, dim);
+        var dataWithIndex = assignToCluster(randomCentroids, clusterData, dim);
       
         var newCentroids = [];
         var iterations = 0;
 
         var newCentroids = recalculateCentroids(dataWithIndex, randomCentroids, dim);
 
-        return checkQuality(dataWithIndex, data, newCentroids, dim);
+        return checkQuality(dataWithIndex, clusterData, newCentroids, dim);
     };
 
 
