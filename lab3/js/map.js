@@ -108,6 +108,10 @@ function map(data) {
 
     //Filters data points according to the specified magnitude
     function filterMag(value) {
+        document.getElementById("slider-value").innerHTML = value;
+        svg.selectAll("circle").style("opacity", function(d) {
+            return (value > d.properties.mag) ? 0 : 1;
+        });
     }
     
     //Filters data points according to the specified time window
