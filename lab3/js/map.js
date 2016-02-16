@@ -128,8 +128,8 @@ function map(data) {
 
     //Calls k-means function and changes the color of the points  
     this.cluster = function () {
-
-        var kmeansRes = kmeans(data, Number(k.value));
+        var kmeansRes = [];
+        kmeansRes = kmeans(data, Number(k.value));
         self.color = d3.scale.category20()
                      .domain(0,Number(k.value));
         var cenIndex = kmeansRes[0].length - 1;
@@ -140,6 +140,11 @@ function map(data) {
         svg.selectAll("circle")
         .data(data)
         .style("fill", function(d) { return self.color(d.centroidIndex); });
+        for (var i = 0; i < data.length; i++)
+        {
+            delete data[i].centroidIndex;
+        }
+        console.log(data[0]);
 
     };
 

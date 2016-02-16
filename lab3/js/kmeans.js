@@ -227,6 +227,7 @@
         var randomCentroids = [];
         var clusterData = [];
         var dim2 = Object.keys(data[0]);
+        
         for (var i = 0; i < data.length; i++)
         {
             clusterData.push([]);
