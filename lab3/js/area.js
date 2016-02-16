@@ -11,7 +11,7 @@ function area(data) {
             height2 = areaDiv.height() - margin2.top - margin2.bottom;
 
     //Sets the data format
-    var format = d3.time.format("%Y-%m-%dT%H:%M:%S.%LZ");
+    var format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ").parse;
 
     //Sets the scales 
     var x = d3.time.scale().range([0, width]),
@@ -33,7 +33,7 @@ function area(data) {
     var area = d3.svg.area()
             .interpolate("step")
             .x(function (d) {
-                return x(format.parse(d.time));
+                return x(format(d.time));
             })
             .y0(height)
             .y1(function (d) {
@@ -44,7 +44,7 @@ function area(data) {
         var area2 = d3.svg.area()
             .interpolate("step")
             .x(function (d) {
-                return x2(format.parse(d.time));
+                return x2(format(d.time));
             })
             .y0(height2)
             .y1(function (d) {
@@ -72,7 +72,7 @@ function area(data) {
             .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
     //Initializes the axis domains for the big chart
-    x.domain(d3.extent(data.map(function(d) { return format.parse(d.time); })));
+    x.domain(d3.extent(data.map(function(d) { return format(d.time); })));
     y.domain([0, d3.max(data.map(function(d) { return d.mag; }))]);
     x2.domain(x.domain());
     y2.domain(y.domain());
@@ -121,6 +121,7 @@ function area(data) {
         x.domain(brush.empty() ? x2.domain() : brush.extent());
         focus.select("area").attr("d", area);
         focus.select(".x.axis").call(xAxis);
+        map1.filterTime(x.domain());
         //Complete the code
     }
 }

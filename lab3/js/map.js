@@ -108,12 +108,17 @@ function map(data) {
 
     //Filters data points according to the specified magnitude
     function filterMag(value) {
-        //Complete the code
     }
     
     //Filters data points according to the specified time window
     this.filterTime = function (value) {
-        //Complete the code
+        var startTime = value[0].getTime();
+        var endTime = value[1].getTime();
+
+        svg.selectAll("circle").style("opacity", function(d) {
+         var time = new Date(d.properties.time);
+         return (startTime <= time.getTime() && time.getTime() <= endTime) ? 1 : 0;
+        });
     };
 
     //Calls k-means function and changes the color of the points  
