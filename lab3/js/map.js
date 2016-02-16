@@ -136,9 +136,10 @@ function map(data) {
         //console.log(kmeansRes);
         
         //console.log(kmeansRes);
+        var cenIndex = kmeansRes[0].length -1;
         for (var i = 0; i < data.length; i++)
         {
-            data[i].centroidIndex = kmeansRes[i][4]; // centroid index
+            data[i].centroidIndex = kmeansRes[i][cenIndex]; // centroid index
         }
         //console.log(data);
         svg.selectAll("circle")

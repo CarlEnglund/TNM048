@@ -235,7 +235,6 @@
         }
         var keys = d3.keys(data[0]);
         var dim = Object.keys(data[0]);
-
         // Step 1
         for (var i = 0; i < k; i++)
         {
