@@ -128,9 +128,6 @@ function map(data) {
     //Calls k-means function and changes the color of the points  
     this.cluster = function () {
 
-        //k = 10;
-        
-        //k = Number(document.getElementById("k").innerHTML);
         var kmeansRes = kmeans(data, Number(k.value));
         self.color = d3.scale.category20()
                      .domain(0,Number(k.value));
