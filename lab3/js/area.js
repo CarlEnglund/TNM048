@@ -73,7 +73,7 @@ function area(data) {
 
     //Initializes the axis domains for the big chart
     x.domain(d3.extent(data.map(function(d) { return format(d.time); })));
-    y.domain([0, d3.max(data.map(function(d) { return d.mag; }))]);
+    y.domain(d3.extent(data.map(function(d) { return d.mag; })));
     x2.domain(x.domain());
     y2.domain(y.domain());
 
@@ -119,9 +119,9 @@ function area(data) {
     //Method for brushing
     function brush() {
         x.domain(brush.empty() ? x2.domain() : brush.extent());
-        focus.select("area").attr("d", area);
+        focus.select("path").attr("d", area);
         focus.select(".x.axis").call(xAxis);
-        map1.filterTime(x.domain());
+        map1.filterTime(brush.extent());
         //Complete the code
     }
 }
