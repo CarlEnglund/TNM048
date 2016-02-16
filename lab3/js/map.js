@@ -110,7 +110,7 @@ function map(data) {
     function filterMag(value) {
         document.getElementById("slider-value").innerHTML = value;
         svg.selectAll("circle").style("opacity", function(d) {
-            return (value > d.properties.mag) ? 0 : 1;
+            return (value < d.properties.mag) ? 1 : 0;
         });
     }
     
