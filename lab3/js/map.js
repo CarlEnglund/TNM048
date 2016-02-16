@@ -128,10 +128,28 @@ function map(data) {
     //Calls k-means function and changes the color of the points  
     this.cluster = function () {
 
-        k = 4;
-        var kmeansRes = kmeans(d, k);
+        k = 10;
+
+        var kmeansRes = kmeans(data, k);
+        self.color = d3.scale.category20()
+                     .domain(0,k);
+        //console.log(kmeansRes);
+        
+        //console.log(kmeansRes);
+        for (var i = 0; i < data.length; i++)
+        {
+            data[i].centroidIndex = kmeansRes[i][4]; // centroid index
+        }
+        //console.log(data);
+        svg.selectAll("circle")
+        .data(data)
+        .style("fill", function(d) { return self.color(d.centroidIndex); });       
 
     };
+    function changeColor(kmeansRes)
+    {
+
+    }
 
     //Zoom and panning method
     function move() {

@@ -199,13 +199,11 @@
         // if the quality got worse on last iteration
         if (oldDataWithIndex.length == theDataWithIndex.length)
         {
-            console.log("hej");
             return oldDataWithIndex;
         }
         
         else
         {
-            console.log("tju");
             return theDataWithIndex;
         }
 
@@ -225,9 +223,19 @@
 
     function kmeans(data, k) 
     {
-        var dim = Object.keys(data[0]);
+        //var dim = Object.keys(data[0]);
         var randomCentroids = [];
+        
+
+        for (var i = 0; i < data.length; i++)
+        {
+            delete data[i].id;
+            delete data[i].time;
+            delete data[i].place;
+        }
         var keys = d3.keys(data[0]);
+        var dim = Object.keys(data[0]);
+
         // Step 1
         for (var i = 0; i < k; i++)
         {
