@@ -123,7 +123,10 @@ function map(data) {
 
     //Calls k-means function and changes the color of the points  
     this.cluster = function () {
-        //Complete the code
+
+        k = 4;
+        var kmeansRes = kmeans(d, k);
+
     };
 
     //Zoom and panning method
