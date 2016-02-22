@@ -239,6 +239,7 @@
                 }
             }            
         }
+        
 
         var keys = d3.keys(clusterData[0]);
         var dim = Object.keys(clusterData[0]);

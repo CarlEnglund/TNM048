@@ -1,10 +1,14 @@
 function map(data) {
-
+    var gData = [];
+    var startTime;
+    var endTime;
+    var time = 0;
     var zoom = d3.behavior.zoom()
             .scaleExtent([0.5, 8])
             .on("zoom", move);
-
     var mapDiv = $("#map");
+    var clustered = false;
+
 
     var margin = {top: 20, right: 20, bottom: 20, left: 20},
     width = mapDiv.width() - margin.right - margin.left,
@@ -18,7 +22,7 @@ function map(data) {
         return format.parse(d.time);
     }));
 
-    var filterdData = data;
+    
 
     //Sets the colormap
     var colors = colorbrewer.Set3[10];
@@ -42,7 +46,7 @@ function map(data) {
     //Formats the data in a feature collection trougth geoFormat()
     var geoData = {type: "FeatureCollection", features: geoFormat(data)};
     
-
+    var filteredData = geoData.features;
     //Loads geo data
     d3.json("data/world-topo.json", function (error, world) {
         var countries = topojson.feature(world, world.objects.countries).features;
@@ -116,35 +120,69 @@ function map(data) {
     
     //Filters data points according to the specified time window
     this.filterTime = function (value) {
-        var startTime = value[0].getTime();
-        var endTime = value[1].getTime();
+        startTime = value[0].getTime();
+        endTime = value[1].getTime();
         if(startTime == endTime)
             return;
         svg.selectAll("circle").style("opacity", function(d) {
-         var time = new Date(d.properties.time);
+            if (clustered)
+            {
+                time = new Date(d.time);
+            }
+            else
+            {
+                time = new Date(d.properties.time);
+                //console.log(d.properties.time);
+            }
+           // var time = new Date(d.time);
+         //var time = new Date(d.properties.time);
          return (startTime <= time.getTime() && time.getTime() <= endTime) ? 1 : 0;
         });
     };
 
     //Calls k-means function and changes the color of the points  
     this.cluster = function () {
+        
+        gData = [];
+        var filtDataIndex =  [];
+        //add all data to the global data array which is not filtered out 
+        for (j=0; j < data.length; j++) {
+            var dTime = new Date(data[j].time);
+            var dMag = data[j].mag;
+            //make data array with selected values
+            if ((startTime == 0 || dTime.getTime() >= startTime) && 
+                    (endTime == 0 || dTime.getTime() <= endTime)) {
+                filtDataIndex.push(j);
+                gData.push(data[j]);
+            }
+        }
+
+
         var kmeansRes = [];
-        kmeansRes = kmeans(data, Number(k.value));
+        kmeansRes = kmeans(gData, Number(k.value));
         self.color = d3.scale.category20()
                      .domain(0,Number(k.value));
         var cenIndex = kmeansRes[0].length - 1;
-        for (var i = 0; i < data.length; i++)
+        for (var i = 0; i < gData.length; i++)
         {
-            data[i].centroidIndex = kmeansRes[i][cenIndex]; // centroid index
+            gData[i].centroidIndex = kmeansRes[i][cenIndex]; // centroid index
         }
+        for (var i = 0; i < gData.length; i++)
+        {
+            data[filtDataIndex[i]].centroidIndex = gData[i].centroidIndex;
+        }
+
+
+        console.log(gData.length);
         svg.selectAll("circle")
         .data(data)
-        .style("fill", function(d) { return self.color(d.centroidIndex); });
+        .style("fill", function(d) {  return self.color(d.centroidIndex); });
         for (var i = 0; i < data.length; i++)
         {
             delete data[i].centroidIndex;
         }
-        console.log(data[0]);
+       // console.log(data[0]);
+        clustered = true;
 
     };
 
