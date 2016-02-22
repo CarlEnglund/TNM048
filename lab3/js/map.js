@@ -122,8 +122,10 @@ function map(data) {
     this.filterTime = function (value) {
         startTime = value[0].getTime();
         endTime = value[1].getTime();
+
          if(startTime == endTime)
             {
+
                 svg.selectAll(".dot").style("opacity", 1);
             }
             else {
@@ -159,7 +161,15 @@ function map(data) {
                 gData.push(data[j]);
             }
         }
-
+        // if no filtering
+        if (gData.length == 0)
+        {
+            for (var i = 0; i < data.length; i++)
+            {
+                gData.push(data[i]);
+            }
+        }
+       // console.log(data[0]);
 
         var kmeansRes = [];
         kmeansRes = kmeans(gData, Number(k.value));
@@ -170,10 +180,20 @@ function map(data) {
         {
             gData[i].centroidIndex = kmeansRes[i][cenIndex]; // centroid index
         }
+    
         for (var i = 0; i < gData.length; i++)
         {
-            data[filtDataIndex[i]].centroidIndex = gData[i].centroidIndex;
+            if (gData.length == data.length)
+            {
+                data[i].centroidIndex = gData[i].centroidIndex
+            }
+            else
+            {
+                data[filtDataIndex[i]].centroidIndex = gData[i].centroidIndex;
+            }
         }
+        
+
 
 
         console.log(gData.length);
