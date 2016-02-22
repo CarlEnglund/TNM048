@@ -122,8 +122,11 @@ function map(data) {
     this.filterTime = function (value) {
         startTime = value[0].getTime();
         endTime = value[1].getTime();
-        if(startTime == endTime)
-            return;
+         if(startTime == endTime)
+            {
+                svg.selectAll(".dot").style("opacity", 1);
+            }
+            else {
         svg.selectAll("circle").style("opacity", function(d) {
             if (clustered)
             {
@@ -137,7 +140,7 @@ function map(data) {
            // var time = new Date(d.time);
          //var time = new Date(d.properties.time);
          return (startTime <= time.getTime() && time.getTime() <= endTime) ? 1 : 0;
-        });
+        });};
     };
 
     //Calls k-means function and changes the color of the points  
