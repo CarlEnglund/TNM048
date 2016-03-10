@@ -233,7 +233,8 @@
             clusterData.push([]);
             for (var j = 0; j < dim2.length; j++)
             {
-                if (dim2[j] != "id" && dim2[j] != "time" && dim2[j] != "place")
+                if (dim2[j] != "id" && dim2[j] != "time" && dim2[j] != "place" && 
+                    dim2[j] != "lat" && dim2[j] != "lon")
                 {
                     clusterData[i].push(data[i][dim2[j]]);
                 }

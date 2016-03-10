@@ -40,7 +40,7 @@ function pc(){
         self.data = data;
        // console.log(data);
         
-        var k = 4;
+        var k = 5;
         var kmeansRes = kmeans(data,k);
         var dim = Object.keys(data[0]);
         for (var i = 0; i < data.length; i++)
