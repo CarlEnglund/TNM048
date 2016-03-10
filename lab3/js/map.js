@@ -193,10 +193,6 @@ function map(data) {
             }
         }
         
-
-
-
-        console.log(gData.length);
         svg.selectAll("circle")
         .data(data)
         .style("fill", function(d) {  return self.color(d.centroidIndex); });
@@ -204,7 +200,6 @@ function map(data) {
         {
             delete data[i].centroidIndex;
         }
-       // console.log(data[0]);
         clustered = true;
 
     };

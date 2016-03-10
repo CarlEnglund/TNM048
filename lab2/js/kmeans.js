@@ -31,10 +31,11 @@
                     distance += (Math.pow(parseFloat(dataWithCentroidIndex[i][k]) - 
                         theCentroids[j][k], 2));
                 }
+                //push all centroid distances to array
                 distanceArray.push(Math.sqrt(distance));
                 distance = 0;
             }
-        
+            // find closest centroid in the distance array
             dataWithCentroidIndex[i][theDim.length] = distanceArray.indexOf(Math.min.apply(Math, distanceArray));
             distance = 0;
             distanceArray = []; 
@@ -43,9 +44,6 @@
     };
     function recalculateCentroids(theDataWithIndex, theCentroids, theDim)
     {
-        var avgA = 0;
-        var avgB = 0;
-        var avgC = 0;
         var currIndex;
         var editDataWithIndex = [];
         var averages = [];
@@ -162,8 +160,6 @@
           
                 theDataWithIndex = assignToCluster(theCentroids, theData, theDim);
                 theCentroids = recalculateCentroids(theDataWithIndex, theCentroids, theDim);
-            
-
             }
             else
             {
@@ -199,13 +195,11 @@
         // if the quality got worse on last iteration
         if (oldDataWithIndex.length == theDataWithIndex.length)
         {
-            console.log("hej");
             return oldDataWithIndex;
         }
         
         else
         {
-            console.log("tju");
             return theDataWithIndex;
         }
 
